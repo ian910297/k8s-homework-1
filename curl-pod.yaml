@@ -4,8 +4,16 @@ metadata:
   name: curl-pod
   namespace: default
 spec:
+  serviceAccountName: default
+  initContainers:
+  - name: get-token
+    image: bitnami/kubectl
+    command: ["sh", "-c", "kubectl create token default > /tmp/token"]
   containers:
   - name: curl-container
     image: curlimages/curl
-    command: ["curl", "-k", "https://192.168.49.2:8443/api/v1/namespaces/default/pods"]
-  restartPolicy: Always
+    command:
+      - "sh"
+      - "-c"
+      - "curl -k -H 'Authorization: Bearer $(cat /tmp/token)' https://kubernetes.default.svc/api/v1/namespaces/default/pods"
+  restartPolicy: Never
