@@ -1,34 +1,25 @@
 # k8s-homework-1
 
-## Cmd
+* Step 1
+Start an one node cluster at localhost
 ```shell
-# launch minikube
 minikube start
-minikube dashboard
-
-# create pod
-kubectl apply -f <yaml>  
-
-# get into pod
-kubectl exec -it curl-pod -n default -- sh
-
-# get pod info
-kubectl get pods
-
-# delete pod
-kubectl delete pod <pod name> --force  
-
-# Note
-# No restart flow in k8s
-# delete, then apply again
-
-# show the stdout of the pod
-kubectl logs pod <pod name>  
-
-# show the local namespace info
-kubectl cluster-info
 ```
 
-## TODO
-1. get the API token  
-2. put it all into yaml  
+* Step 2
+Create Pod `curl-pod`
+```shell
+kubectl apply -f get_pod_with_serviceaccount.yaml
+```
+
+* Step 3
+View the `curl-pod` output
+```shell
+kubectl logs curl-pod
+```
+
+* Step 4
+Delete `curl-pod`
+```shell
+kubectl delete pod curl-pod --force
+```
